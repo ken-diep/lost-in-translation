@@ -21,10 +21,9 @@ html, body {
   border-radius: 6px;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-  white-space: nowrap;
+  white-space: normal;
   max-width: 60vw;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center;
 }
 
 /* ── Scorecard ── */

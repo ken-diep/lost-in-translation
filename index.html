@@ -42,7 +42,8 @@
     let answered = false;
     let countryNames = false;
     let guessesLeft = 3;
-
+    let clue1Used = false;
+    let clue2Used = false;
     let current = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
     document.getElementById('prompt').textContent = current.cn;
     let geoData;
@@ -95,7 +96,8 @@
     function loadRound() {
       markerLayer.clearLayers();
       repositionScorecard();
-
+      clue1Used = false;
+      clue2Used = false;
       guessesLeft = 3;
       current = usedCountries[roundIndex];
 
@@ -158,10 +160,12 @@
       btn.disabled = false;
       btn.style.opacity = '1';
       btn.style.cursor = 'pointer';
+      clue1Used = true;
     }
 
     function clue2() {
       document.getElementById('prompt').textContent = `${current.cn} (${current.py}), continent: ${current.continent}, ${guessesLeft} guesses left`;
+      clue2Used = true;
     }
 
     function toggleLabels() {
@@ -223,8 +227,18 @@
             // Wrong country
             guessesLeft--;
             if (guessesLeft > 0) {
-              document.getElementById('prompt').textContent = `${current.cn}, ${guessesLeft} guesses left`;
-
+              if (clue2Used) {
+                clue2();
+              }
+              else {
+                if (clue1Used) {
+                  clue1();
+                }
+                else {
+                  //No clue used
+                  document.getElementById('prompt').textContent = `${current.cn}, ${guessesLeft} guesses left`;
+                }
+              }
             } 
             else {
               scoreWrong++;
@@ -239,7 +253,18 @@
         else {
           guessesLeft--;
           if (guessesLeft > 0) {
-              document.getElementById('prompt').textContent = `${current.cn}, ${guessesLeft} guesses left`;
+              if (clue2Used) {
+                clue2();
+              }
+              else {
+                if (clue1Used) {
+                  clue1();
+                }
+                else {
+                  //No clue used
+                  document.getElementById('prompt').textContent = `${current.cn}, ${guessesLeft} guesses left`;
+                }
+              }
           } 
           else {
             scoreWrong++;
