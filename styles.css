@@ -2,4 +2,141 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+/* ── Prompt banner ── */
+#prompt {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.96);
+  padding: 10px 20px;
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(16px, 4vw, 30px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 6px;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  white-space: nowrap;
+  max-width: 60vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Scorecard ── */
+#scorecard {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 6px;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 90px;
+  font-family: 'Lato', sans-serif;
+  transition: top 0.25s ease, bottom 0.25s ease;
+}
+
+#scorecard.bottom-right {
+  top: auto;
+  bottom: 90px;
+  right: 10px;
+}
+
+#scorecard .sc-label {
+  font-size: clamp(8px, 2vw, 10px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #aaa;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding-bottom: 4px;
+  margin-bottom: 1px;
+}
+
+#scorecard .sc-row {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: clamp(10px, 2.5vw, 13px);
+}
+
+#scorecard .sc-row span:last-child {
+  font-weight: 700;
+  color: #333;
+}
+
+/* ── Button bar ── */
+#btn-bar {
+  position: absolute;
+  bottom: env(safe-area-inset-bottom, 16px);
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 95vw;
+  max-width: 640px;
+  padding-bottom: 4px;
+}
+
+.btn {
+  padding: 0;
+  height: clamp(40px, 6vw, 52px);
+  font-size: clamp(12px, 2.8vw, 15px);
+  font-family: 'Lato', sans-serif;
+  background: rgba(255,255,255,0.96);
+  border: 1.5px solid #bbb;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  transition: background 0.15s;
+  flex: 1 1 auto;
+  min-width: 60px;
+  white-space: nowrap;
+  padding: 0 10px;
+}
+
+.btn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Leaflet attribution ── */
+.leaflet-control-attribution {
+  /* Push it below the button bar on all screens */
+  margin-bottom: 0 !important;
+  font-size: 12px !important;
+  max-width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sit the attribution container above the OS chrome but below our buttons */
+.leaflet-bottom.leaflet-right {
+  bottom: 0 !important;
+  padding-bottom: 4px;
+  z-index: 999 !important; /* below our buttons at 1000 */
+}
+
+/* ── Map ── */
+#map {
+  width: 100vw;
+  height: 100vh;
 }

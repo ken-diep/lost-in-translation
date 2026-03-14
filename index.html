@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>地图挑战</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,100 +15,26 @@
   <script src="countries.js"></script>
 </head>
 <body>
-  <div id="prompt" style="
-      position: absolute;
-      top: 20px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.96);
-      padding: 14px 32px;
-      font-family: 'Lato', sans-serif;
-      font-size: 30px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      border-radius: 6px;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-      white-space: nowrap;
-  ">—</div>
+  <div id="prompt">—</div>
 
-  <div id="scorecard" style="
-    position: absolute; top: 20px; right: 20px;
-    background: rgba(255,255,255,0.96);
-    border-radius: 6px; z-index: 1000;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    padding: 8px 14px;
-    display: flex; flex-direction: column; gap: 4px;
-    min-width: 110px;
-    font-family: 'Lato', sans-serif; font-size: 11px;
-  ">
-    <div style="
-      font-family: 'Lato', sans-serif;
-      font-size: 10px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: #aaa; border-bottom: 1px solid rgba(0,0,0,0.08);
-      padding-bottom: 5px; margin-bottom: 1px;
-    ">Scorecard</div>
-    <div style="display: flex; justify-content: space-between; color: #777;">
-      <span>Correct</span><span id="sc-correct" style="font-weight: 700; color: #333;">0</span>
-    </div>
-    <div style="display: flex; justify-content: space-between; color: #777;">
-      <span>Wrong</span><span id="sc-wrong" style="font-weight: 700; color: #333;">0</span>
-    </div>
-    <div style="display: flex; justify-content: space-between; color: #777;">
-      <span>Skipped</span><span id="sc-skipped" style="font-weight: 700; color: #333;">0</span>
-    </div>
+  <div id="scorecard">
+    <div class="sc-label">Scorecard</div>
+    <div class="sc-row"><span>Correct</span><span id="sc-correct">0</span></div>
+    <div class="sc-row"><span>Wrong</span><span id="sc-wrong">0</span></div>
+    <div class="sc-row"><span>Skipped</span><span id="sc-skipped">0</span></div>
   </div>
 
-    <!-- Back and Skip buttons -->
-  <div style="
-    position: absolute; bottom: 30px; left: 50%;
-    transform: translateX(-50%);
-    display: flex; gap: 12px; z-index: 1000;
-  ">
-    <button id="btn-back" onclick="goBack()" style="
-      padding: 11px 22px; font-size: 14px;
-      font-family: 'Lato', sans-serif;
-      background: rgba(255,255,255,0.96); border: 1.5px solid #bbb;
-      border-radius: 6px; cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='rgba(255,255,255,0.96)'">← Back</button>
-    <button id="btn-clue-1" onclick="clue1()" style="
-      padding: 11px 22px; font-size: 14px;
-      font-family: 'Lato', sans-serif;
-      background: rgba(255,255,255,0.96); border: 1.5px solid #bbb;
-      border-radius: 6px; cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='rgba(255,255,255,0.96)'">Clue 1</button>
-    <button id="btn-clue-2" onclick="clue2()" disabled style="
-      padding: 11px 22px; font-size: 14px;
-      font-family: 'Lato', sans-serif;
-      background: rgba(255,255,255,0.96); border: 1.5px solid #bbb;
-      border-radius: 6px; cursor: not-allowed; opacity: 0.35;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    " onmouseover="if(!this.disabled) this.style.background='#f0f0f0'" onmouseout="if(!this.disabled) this.style.background='rgba(255,255,255,0.96)'">Clue 2</button>
-    <button id="btn-skip" onclick="goSkip()" style="
-      padding: 11px 22px; font-size: 14px;
-      font-family: 'Lato', sans-serif;
-      background: rgba(255,255,255,0.96); border: 1.5px solid #bbb;
-      border-radius: 6px; cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='rgba(255,255,255,0.96)'">Skip →</button>
-    <button id="btn-labels" onclick="toggleLabels()" style="
-      padding: 11px 22px; font-size: 14px;
-      font-family: 'Lato', sans-serif;
-      background: rgba(255,255,255,0.96); border: 1.5px solid #bbb;
-      border-radius: 6px; cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='rgba(255,255,255,0.96)'">Show Labels</button>
+  <div id="btn-bar">
+    <button id="btn-back"    class="btn" onclick="goBack()">← Back</button>
+    <button id="btn-clue-1"  class="btn" onclick="clue1()">Clue 1</button>
+    <button id="btn-clue-2"  class="btn" onclick="clue2()" disabled>Clue 2</button>
+    <button id="btn-skip"    class="btn" onclick="goSkip()">Skip →</button>
+    <button id="btn-labels"  class="btn" onclick="toggleLabels()">Show Labels</button>
   </div>
 
-  <div id="map" style="width:100vw; height:100vh;"></div>
+  <div id="map"></div>
+
   <script>
-
-    let current = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
-    document.getElementById('prompt').textContent = current.cn;
-    let geoData;
-
     //game logic
     let roundIndex = 0;
     const ROUNDS = COUNTRIES.length;
@@ -116,15 +43,20 @@
     let countryNames = false;
     let guessesLeft = 3;
 
+    let current = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
+    document.getElementById('prompt').textContent = current.cn;
+    let geoData;
+    let labelsVisible = false;
+
     // Score
     let scoreCorrect = 0;
     let scoreWrong   = 0;
     let scoreSkipped = 0;
 
-    const tilesWithLabels = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+/*     const tilesWithLabels = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       noWrap: true,
-    });
+    }); */
 
     const map = L.map('map', {
         center: [20, 0],
@@ -132,9 +64,10 @@
         minZoom: 3,
         maxBounds: [[-90, -180], [90, 180]],
         maxBoundsViscosity: 1.0,
+        tap: true,
       });
 
-    var Stadia_StamenWatercolor = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}', {
+    const Stadia_StamenWatercolor = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}', {
       minZoom: 1,
       maxZoom: 16,
       attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -142,10 +75,7 @@
     });
     Stadia_StamenWatercolor.addTo(map);
 
-    let labelsVisible = false;
-    //L.tileLayer.provider('Stadia.StamenWatercolor').addTo(map);
-
-    var Stadia_StamenTerrainLines = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_lines/{z}/{x}/{y}{r}.{ext}', {
+    const Stadia_StamenTerrainLines = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_lines/{z}/{x}/{y}{r}.{ext}', {
       minZoom: 0,
       maxZoom: 18,
       attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -153,7 +83,7 @@
     });
     Stadia_StamenTerrainLines.addTo(map);
 
-    var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
+    const Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
       minZoom: 0,
       maxZoom: 18,
       attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -164,8 +94,11 @@
    
     function loadRound() {
       markerLayer.clearLayers();
+      repositionScorecard();
+
       guessesLeft = 3;
       current = usedCountries[roundIndex];
+
       document.getElementById('prompt').textContent = `${current.cn}, ${guessesLeft} guesses left`;
       // Disable back button on first round
       document.getElementById('btn-back').disabled = (roundIndex === 0);
@@ -191,15 +124,7 @@
       const feature = geoData.features.find(f => f.properties['ISO_A3'] === current.iso);
     
       if (feature) {
-        const layer = L.geoJSON(feature, {
-          /*
-          style: {
-            color: '#ff0000',
-            weight: 3,
-            fillColor: '#ff0000',
-            fillOpacity: 0.3,
-          }*/
-        }).addTo(markerLayer);
+        const layer = L.geoJSON(feature).addTo(markerLayer);
 
         // pan and zoom to fit the country
         map.fitBounds(layer.getBounds(), { padding: [40, 40] });
@@ -328,6 +253,43 @@
       });
     }
 
+    // ── Scorecard clash detection ─────────────────────────
+    // We measure once per round (or on resize), never mid-round,
+    // to avoid the scorecard jumping on every prompt update.
+    let scorecardIsBottom = false;
+
+    function repositionScorecard() {
+      const prompt    = document.getElementById('prompt');
+      const scorecard = document.getElementById('scorecard');
+
+      // Temporarily remove bottom-right so we can measure the natural top-right position
+      const wasBottom = scorecardIsBottom;
+      scorecard.classList.remove('bottom-right');
+      scorecard.style.bottom = '';
+
+      requestAnimationFrame(() => {
+        const pRect = prompt.getBoundingClientRect();
+        const sRect = scorecard.getBoundingClientRect();
+
+        const clash =
+          pRect.right  > sRect.left  - 8 &&
+          pRect.left   < sRect.right + 8 &&
+          pRect.bottom > sRect.top   - 8 &&
+          pRect.top    < sRect.bottom + 8;
+
+        if (clash) {
+          const btnBar = document.getElementById('btn-bar');
+          const btnH   = btnBar ? btnBar.getBoundingClientRect().height : 60;
+          // Extra 24px clearance above the button bar
+          scorecard.style.bottom = (btnH + 24) + 'px';
+          scorecard.classList.add('bottom-right');
+          scorecardIsBottom = true;
+        } else {
+          scorecardIsBottom = false;
+        }
+      });
+    }
+    window.addEventListener("resize", repositionScorecard);
     init();
   </script>
 </body>
